@@ -1,2 +1,2 @@
-const customersResult = document.getElementById("customersResult");
-customersResult.innerHTML = "<div><strong>Andi</strong><br>City: Dortmund</div>";
+const customer = { id: 1, name: "Andi", city: "Dortmund" };
+document.getElementById("customersResult").innerHTML = `<div><strong>${customer.name}</strong><br>City: ${customer.city}</div>`;
