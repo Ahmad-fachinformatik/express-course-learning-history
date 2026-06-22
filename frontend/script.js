@@ -1,2 +1,3 @@
 const loadCustomersButton = document.getElementById("loadCustomersButton");
-loadCustomersButton.addEventListener("click", function () { console.log("Button clicked"); });
+const customersResult = document.getElementById("customersResult");
+loadCustomersButton.addEventListener("click", function () { customersResult.innerHTML = "Customers will appear here"; });
