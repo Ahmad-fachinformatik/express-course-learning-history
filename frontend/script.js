@@ -13,7 +13,7 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
     let editingCustomerId = null;
     function showMessage(element, message, className) { if (element) { element.innerHTML = message; element.className = className || ""; } }
     function createCustomerHTML(customer) {
-      return `<div class="item"><strong>${customer.name}</strong><br>City: ${customer.city}<br></div>`;
+      return `<div class="item"><strong>${customer.name}</strong><br>City: ${customer.city}<br><button class="delete-button" onclick="deleteCustomer(${customer.id}, this)">Delete Customer</button></div>`;
     }
     function createProductHTML(product) {
       return `<div class="item"><strong>${product.name}</strong><br>Price: ${product.price}<br></div>`;
@@ -57,7 +57,8 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
             .catch(function () { showMessage(productMessage, "Could not add product", "error-message"); })
             .finally(function () { addProductButton.disabled = false; });
         }
-        loadCustomersButton.addEventListener("click", loadCustomers);
+        function deleteCustomer(id, button) {  if (button) button.disabled = true; fetch("http://localhost:3000/customers/" + id, { method: "DELETE" }).then(function (response) { if (!response.ok) { throw new Error("Delete failed"); } return response.json(); }).then(function () { showMessage(customerMessage, "Customer deleted successfully", "success-message"); loadCustomers(); }).catch(function () { showMessage(customerMessage, "Could not delete customer", "error-message"); }).finally(function () { if (button) button.disabled = false; }); }
+loadCustomersButton.addEventListener("click", loadCustomers);
 loadProductsButton.addEventListener("click", loadProducts);
 addCustomerButton.addEventListener("click", addCustomer);
 addProductButton.addEventListener("click", addProduct);
