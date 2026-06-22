@@ -6,4 +6,5 @@ let products = [{ id: 1, name: "Laptop", price: 999 }, { id: 2, name: "Mouse", p
 app.get("/", function (request, response) { response.status(200).json({ message: "Welcome to my API" }); });
 app.get("/customers", function (request, response) { response.status(200).json(customers); });
 app.get("/products", function (request, response) { response.status(200).json(products); });
+app.use(function (request, response) { response.status(404).json({ error: "Route not found" }); });
 app.listen(port, function () { console.log("Server is running on port " + port); });
