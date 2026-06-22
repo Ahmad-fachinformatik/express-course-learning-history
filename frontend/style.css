@@ -1,6 +1,9 @@
 body { font-family: Arial, sans-serif; margin: 30px; background: #f4f4f4; }
-section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
-button { padding: 8px 12px; margin: 5px; cursor: pointer; }
-input { padding: 8px; margin: 5px; }
-.item { background: #eee; padding: 10px; margin: 10px 0; border-radius: 6px; }
-.delete-button { font-weight: bold; }
+    section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+    button { padding: 8px 12px; margin: 5px; cursor: pointer; }
+    input { padding: 8px; margin: 5px; }
+    .item { background: #eee; padding: 10px; margin: 10px 0; border-radius: 6px; }
+    .delete-button { font-weight: bold; }
+.success-message { color: green; }
+.error-message { color: red; }
+.loading-message { color: #555; }
