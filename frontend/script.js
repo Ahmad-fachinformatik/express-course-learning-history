@@ -46,6 +46,18 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
             .catch(function () { showMessage(customerMessage, "Could not save customer", "error-message"); })
             .finally(function () { addCustomerButton.disabled = false; });
         }
+
+        function addProduct() {
+          const price = Number(productPriceInput.value);
+          if (!productNameInput.value.trim() || isNaN(price)) { showMessage(productMessage, "Product name and valid price are required", "error-message"); return; }
+          addProductButton.disabled = true;
+          fetch("http://localhost:3000/products", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: productNameInput.value.trim(), price: price }) })
+            .then(function (response) { if (!response.ok) { throw new Error("Could not add product"); } return response.json(); })
+            .then(function (product) { showMessage(productMessage, "Product added successfully", "success-message"); productsResult.innerHTML = createProductHTML(product); })
+            .catch(function () { showMessage(productMessage, "Could not add product", "error-message"); })
+            .finally(function () { addProductButton.disabled = false; });
+        }
         loadCustomersButton.addEventListener("click", loadCustomers);
 loadProductsButton.addEventListener("click", loadProducts);
 addCustomerButton.addEventListener("click", addCustomer);
+addProductButton.addEventListener("click", addProduct);
