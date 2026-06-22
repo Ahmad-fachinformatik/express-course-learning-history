@@ -8,6 +8,6 @@ app.get("/", function (request, response) { response.status(200).json({ message:
 app.get("/customers", function (request, response) { response.status(200).json(customers); });
 app.get("/products", function (request, response) { response.status(200).json(products); });
 app.get("/customers/:id", function (request, response) { const id = Number(request.params.id); const customer = customers.find(function (item) { return item.id === id; }); if (!customer) { return response.status(404).json({ error: "Customer not found" }); } response.status(200).json(customer); });
-app.post("/customers", function (request, response) {  const newCustomer = { id: customers.length + 1, name: request.body.name, city: request.body.city }; customers.push(newCustomer); response.status(201).json(newCustomer); });
+app.post("/customers", function (request, response) { if (!request.body.name || !request.body.city) { return response.status(400).json({ error: "Customer name and city are required" }); } const newCustomer = { id: customers.length + 1, name: request.body.name, city: request.body.city }; customers.push(newCustomer); response.status(201).json(newCustomer); });
 app.use(function (request, response) { response.status(404).json({ error: "Route not found" }); });
 app.listen(port, function () { console.log("Server is running on port " + port); });
