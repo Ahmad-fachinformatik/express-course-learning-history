@@ -3,3 +3,4 @@ section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 
 button { padding: 8px 12px; margin: 5px; cursor: pointer; }
 input { padding: 8px; margin: 5px; }
 .item { background: #eee; padding: 10px; margin: 10px 0; border-radius: 6px; }
+.delete-button { font-weight: bold; }
