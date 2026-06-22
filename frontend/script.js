@@ -34,5 +34,18 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
         .then(function (products) { productsResult.innerHTML = ""; if (products.length === 0) { productsResult.innerHTML = "No products found"; return; } products.forEach(function (product) { productsResult.innerHTML += createProductHTML(product); }); })
         .catch(function () { productsResult.innerHTML = "Could not load products"; });
     }
-    loadCustomersButton.addEventListener("click", loadCustomers);
+
+        function addCustomer() {
+          if (!customerNameInput.value.trim() || !customerCityInput.value.trim()) { showMessage(customerMessage, "Customer name and city are required", "error-message"); return; }
+          addCustomerButton.disabled = true;
+          const method = editingCustomerId ? "PUT" : "POST";
+          const url = editingCustomerId ? "http://localhost:3000/customers/" + editingCustomerId : "http://localhost:3000/customers";
+          fetch(url, { method: method, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: customerNameInput.value.trim(), city: customerCityInput.value.trim() }) })
+            .then(function (response) { if (!response.ok) { throw new Error("Could not save customer"); } return response.json(); })
+            .then(function (customer) { showMessage(customerMessage, editingCustomerId ? "Customer updated successfully" : "Customer added successfully", "success-message"); customersResult.innerHTML = createCustomerHTML(customer); editingCustomerId = null; addCustomerButton.innerHTML = "Add Customer"; })
+            .catch(function () { showMessage(customerMessage, "Could not save customer", "error-message"); })
+            .finally(function () { addCustomerButton.disabled = false; });
+        }
+        loadCustomersButton.addEventListener("click", loadCustomers);
 loadProductsButton.addEventListener("click", loadProducts);
+addCustomerButton.addEventListener("click", addCustomer);
