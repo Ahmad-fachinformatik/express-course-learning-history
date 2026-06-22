@@ -1,1 +1,1 @@
-{"name":"express-course-learning-history","version":"1.0.0","main":"app.js","scripts":{"start":"node app.js"},"license":"ISC","dependencies":{}}
+{"name":"express-course-learning-history","version":"1.0.0","main":"app.js","scripts":{"start":"node app.js"},"license":"ISC","dependencies":{"express":"^5.2.1","cors":"^2.8.6"}}
