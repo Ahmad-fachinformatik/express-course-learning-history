@@ -13,7 +13,7 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
     let editingCustomerId = null;
     function showMessage(element, message, className) { if (element) { element.innerHTML = message; element.className = className || ""; } }
     function createCustomerHTML(customer) {
-      return `<div class="item"><strong>${customer.name}</strong><br>City: ${customer.city}<br><button class="delete-button" onclick="deleteCustomer(${customer.id}, this)">Delete Customer</button></div>`;
+      return `<div class="item"><strong>${customer.name}</strong><br>City: ${customer.city}<br><button class="delete-button" onclick="deleteCustomer(${customer.id}, this)">Delete Customer</button><button onclick="startEditCustomer(${customer.id}, '${customer.name}', '${customer.city}')">Edit Customer</button></div>`;
     }
     function createProductHTML(product) {
       return `<div class="item"><strong>${product.name}</strong><br>Price: ${product.price}<br><button class="delete-button" onclick="deleteProduct(${product.id}, this)">Delete Product</button></div>`;
@@ -59,6 +59,7 @@ const loadCustomersButton = document.getElementById("loadCustomersButton");
         }
         function deleteCustomer(id, button) { if (!confirm("Are you sure you want to delete this customer?")) { return; } if (button) button.disabled = true; fetch("http://localhost:3000/customers/" + id, { method: "DELETE" }).then(function (response) { if (!response.ok) { throw new Error("Delete failed"); } return response.json(); }).then(function () { showMessage(customerMessage, "Customer deleted successfully", "success-message"); loadCustomers(); }).catch(function () { showMessage(customerMessage, "Could not delete customer", "error-message"); }).finally(function () { if (button) button.disabled = false; }); }
 function deleteProduct(id, button) { if (!confirm("Are you sure you want to delete this product?")) { return; } if (button) button.disabled = true; fetch("http://localhost:3000/products/" + id, { method: "DELETE" }).then(function (response) { if (!response.ok) { throw new Error("Delete failed"); } return response.json(); }).then(function () { showMessage(productMessage, "Product deleted successfully", "success-message"); loadProducts(); }).catch(function () { showMessage(productMessage, "Could not delete product", "error-message"); }).finally(function () { if (button) button.disabled = false; }); }
+function startEditCustomer(id, name, city) { editingCustomerId = id; customerNameInput.value = name; customerCityInput.value = city; addCustomerButton.innerHTML = "Update Customer"; }
 loadCustomersButton.addEventListener("click", loadCustomers);
 loadProductsButton.addEventListener("click", loadProducts);
 addCustomerButton.addEventListener("click", addCustomer);
