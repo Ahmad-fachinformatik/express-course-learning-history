@@ -11,8 +11,6 @@ const addCustomerButton = document.getElementById("addCustomerButton");
 const cancelEditCustomerButton = document.getElementById("cancelEditCustomerButton");
 const customerMessage = document.getElementById("customerMessage");
 
-let editingCustomerId = null;
-
 const loadProductsButton = document.getElementById("loadProductsButton");
 const productsResult = document.getElementById("productsResult");
 
@@ -22,8 +20,12 @@ const addProductButton = document.getElementById("addProductButton");
 const cancelEditProductButton = document.getElementById("cancelEditProductButton");
 const productMessage = document.getElementById("productMessage");
 
-let editingProductId = null;
+// =======================
+// State Variables
+// =======================
 
+let editingCustomerId = null;
+let editingProductId = null;
 
 // =======================
 // Message Functions
@@ -44,6 +46,74 @@ function showMessage(element, message, className) {
     element.className = className;
 }
 
+// =======================
+// Reset Form Functions
+// =======================
+
+function resetCustomerForm() {
+    editingCustomerId = null;
+
+    customerNameInput.value = "";
+    customerCityInput.value = "";
+
+    addCustomerButton.innerHTML = "Add Customer";
+
+    cancelEditCustomerButton.style.display = "none";
+}
+
+function resetProductForm() {
+    editingProductId = null;
+
+    productNameInput.value = "";
+    productPriceInput.value = "";
+
+    addProductButton.innerHTML = "Add Product";
+
+    cancelEditProductButton.style.display = "none";
+}
+
+
+// =======================
+// Edit Functions
+// =======================
+
+function startEditCustomer(id, name, city) {
+    editingCustomerId = id;
+
+    customerNameInput.value = name;
+    customerCityInput.value = city;
+
+    addCustomerButton.innerHTML = "Update Customer";
+
+    cancelEditCustomerButton.style.display = "inline-block";
+
+    showMessage(customerMessage, "Editing customer with id: " + id, "loading-message");
+}
+
+function cancelEditCustomer() {
+    resetCustomerForm();
+
+    showMessage(customerMessage, "Edit cancelled", "loading-message");
+}
+
+function startEditProduct(id, name, price) {
+    editingProductId = id;
+
+    productNameInput.value = name;
+    productPriceInput.value = price;
+
+    addProductButton.innerHTML = "Update Product";
+
+    cancelEditProductButton.style.display = "inline-block";
+
+    showMessage(productMessage, "Editing product with id: " + id, "loading-message");
+}
+
+function cancelEditProduct() {
+    resetProductForm();
+
+    showMessage(productMessage, "Edit cancelled", "loading-message");
+}
 
 // =======================
 // HTML Template Functions
@@ -66,36 +136,6 @@ function createCustomerHTML(customer) {
     `;
 }
 
-function startEditCustomer(id, name, city) {
-    editingCustomerId = id;
-
-    customerNameInput.value = name;
-    customerCityInput.value = city;
-
-    addCustomerButton.innerHTML = "Update Customer";
-
-    cancelEditCustomerButton.style.display = "inline-block";
-
-    showMessage(customerMessage, "Editing customer with id: ", "loading-message");
-}
-
-function cancelEditCustomer() {
-    resetCustomerForm();
-
-    showMessage(customerMessage, "Edit cancelled", "loading-message");
-}
-
-function resetCustomerForm() {
-    editingCustomerId = null;
-
-    customerNameInput.value = "";
-    customerCityInput.value = "";
-
-    addCustomerButton.innerHTML = "Add Customer";
-
-    cancelEditCustomerButton.style.display = "none";
-}
-
 function createProductHTML(product) {
     return `
         <div class="item">
@@ -112,37 +152,6 @@ function createProductHTML(product) {
         </div>
     `;
 }
-
-function startEditProduct(id, name, price) {
-    editingProductId = id;
-
-    productNameInput.value = name;
-    productPriceInput.value = price;
-
-    addProductButton.innerHTML = "Update Product";
-
-    cancelEditProductButton.style.display = "inline-block";
-
-    showMessage(productMessage, "Editing product with id: " + id, "loading-message");
-}
-
-function cancelEditProduct() {
-    resetProductForm();
-
-    showMessage(productMessage, "Edit cancelled", "loading-message");
-}
-
-function resetProductForm() {
-    editingProductId = null;
-
-    productNameInput.value = "";
-    productPriceInput.value = "";
-
-    addProductButton.innerHTML = "Add Product";
-
-    cancelEditProductButton.style.display = "none";
-}
-
 
 // =======================
 // Load Functions
@@ -303,7 +312,7 @@ function deleteProduct(id, button) {
 
 
 // =======================
-// Add Customer Event
+// Add / Update Customer Event
 // =======================
 
 addCustomerButton.addEventListener("click", function () {
@@ -409,7 +418,7 @@ addCustomerButton.addEventListener("click", function () {
 
 
 // =======================
-// Add Product Event
+// Add / Update Product Event
 // =======================
 
 addProductButton.addEventListener("click", function () {
@@ -509,7 +518,7 @@ addProductButton.addEventListener("click", function () {
             showMessage(productMessage, "Product updated successfully", "success-message");
 
             resetProductForm();
-            
+
             loadProducts();
         })
         .catch(function (error) {
@@ -523,7 +532,7 @@ addProductButton.addEventListener("click", function () {
 });
 
 // =======================
-// Load Button Events
+// Button Events
 // =======================
 
 loadCustomersButton.addEventListener("click", function () {
