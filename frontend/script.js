@@ -21,6 +21,8 @@ const productPriceInput = document.getElementById("productPriceInput");
 const addProductButton = document.getElementById("addProductButton");
 const productMessage = document.getElementById("productMessage");
 
+let editingProductId = null;
+
 
 // =======================
 // Message Functions
@@ -107,6 +109,8 @@ function createProductHTML(product) {
 }
 
 function startEditProduct(id, name, price) {
+    editingProductId = id;
+    
     productNameInput.value = name;
     productPriceInput.value = price;
 }
@@ -389,7 +393,7 @@ addCustomerButton.addEventListener("click", function () {
 addProductButton.addEventListener("click", function () {
     clearCustomerMessage();
 
-    console.log("Add product button clicked");
+    console.log("Product button clicked");
 
     const name = productNameInput.value.trim();
     const price = Number(productPriceInput.value);
@@ -416,10 +420,52 @@ addProductButton.addEventListener("click", function () {
 
     addProductButton.disabled = true;
 
-    showMessage(productMessage, "Adding product...", "loading-message");
+    if (editingProductId === null) {
+        showMessage(productMessage, "Adding product...", "loading-message");
 
-    fetch("http://localhost:3000/products", {
-        method: "POST",
+        fetch("http://localhost:3000/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                price: price
+            })
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error("Could not add product");
+                }
+
+                return response.json();
+            })
+            .then(function (newProduct) {
+                console.log(newProduct);
+
+                showMessage(productMessage, "Product added successfully", "success-message");
+
+                productsResult.innerHTML = createProductHTML(newProduct);
+
+                productNameInput.value = "";
+                productPriceInput.value = "";
+            })
+            .catch(function (error) {
+                console.log(error.message);
+
+                showMessage(productMessage, "Could not add product", "error-message");
+            })
+            .finally(function () {
+                addProductButton.disabled = false;
+            });
+
+        return;
+    }
+
+    showMessage(productMessage, "Updating product...", "loading-message");
+
+    fetch("http://localhost:3000/products/" + editingProductId, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
@@ -430,31 +476,32 @@ addProductButton.addEventListener("click", function () {
     })
         .then(function (response) {
             if (!response.ok) {
-                throw new Error("Could not add product");
+                throw new Error("Could not update product");
             }
 
             return response.json();
         })
-        .then(function (newProduct) {
-            console.log(newProduct);
+        .then(function (updatedProduct) {
+            console.log(updatedProduct);
 
-            showMessage(productMessage, "Product added successfully", "success-message");
-
-            productsResult.innerHTML = createProductHTML(newProduct);
+            showMessage(productMessage, "Product updated successfully", "success-message");
 
             productNameInput.value = "";
             productPriceInput.value = "";
+
+            editingProductId = null;
+
+            loadProducts();
         })
         .catch(function (error) {
             console.log(error.message);
 
-            showMessage(productMessage, "Could not add product", "error-message");
+            showMessage(productMessage, "Could not update product", "error-message");
         })
         .finally(function () {
             addProductButton.disabled = false;
         });
 });
-
 
 // =======================
 // Load Button Events
