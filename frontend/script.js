@@ -122,16 +122,20 @@ function cancelEditProduct() {
 function createCustomerHTML(customer) {
     return `
         <div class="item">
-            <strong>${customer.name}</strong><br>
-            City: ${customer.city}<br>
+            <div class="item-content">
+                <strong>${customer.name}</strong>
+                <span>City: ${customer.city}</span>
+            </div>
 
-            <button class="delete-button" type="button" onclick="deleteCustomer(${customer.id}, this)">
-                Delete Customer
-            </button>
+            <div class="item-actions">
+                <button type="button" onclick="startEditCustomer(${customer.id}, '${customer.name}', '${customer.city}')">
+                    Edit Customer
+                </button>
 
-            <button type="button" onclick="startEditCustomer(${customer.id}, '${customer.name}', '${customer.city}')">
-                Edit Customer
-            </button>
+                <button class="delete-button" type="button" onclick="deleteCustomer(${customer.id}, this)">
+                    Delete Customer
+                </button>
+            </div>
         </div>
     `;
 }
@@ -139,16 +143,20 @@ function createCustomerHTML(customer) {
 function createProductHTML(product) {
     return `
         <div class="item">
-            <strong>${product.name}</strong><br>
-            Price: ${product.price}<br>
+            <div class="item-content">
+                <strong>${product.name}</strong>
+                <span>Price: ${product.price}</span>
+            </div>
 
-            <button class="delete-button" type="button" onclick="deleteProduct(${product.id}, this)">
-                Delete Product
-            </button>
+            <div class="item-actions">
+                <button type="button" onclick="startEditProduct(${product.id}, '${product.name}', ${product.price})">
+                    Edit Product
+                </button>
 
-            <button type="button" onclick="startEditProduct(${product.id}, '${product.name}', ${product.price})">
-                Edit Product
-            </button>
+                <button class="delete-button" type="button" onclick="deleteProduct(${product.id}, this)">
+                    Delete Product
+                </button>
+            </div>
         </div>
     `;
 }
