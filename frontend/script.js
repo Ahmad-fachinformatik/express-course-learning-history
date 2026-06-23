@@ -410,8 +410,7 @@ addCustomerButton.addEventListener("click", function () {
 
                 customersResult.innerHTML = createCustomerHTML(newCustomer);
 
-                customerNameInput.value = "";
-                customerCityInput.value = "";
+                resetCustomerForm();
             })
             .catch(function (error) {
                 console.log(error.message);
@@ -516,8 +515,7 @@ addProductButton.addEventListener("click", function () {
 
                 productsResult.innerHTML = createProductHTML(newProduct);
 
-                productNameInput.value = "";
-                productPriceInput.value = "";
+                resetProductForm();
             })
             .catch(function (error) {
                 console.log(error.message);
