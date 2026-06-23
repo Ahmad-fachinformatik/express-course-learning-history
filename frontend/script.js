@@ -42,7 +42,7 @@ function showMessage(element, message, className) {
 }
 
 
-// =======================D
+// =======================
 // HTML Template Functions
 // =======================
 
