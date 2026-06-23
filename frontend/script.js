@@ -80,6 +80,12 @@ function startEditCustomer(id, name, city) {
 }
 
 function cancelEditCustomer() {
+    resetCustomerForm();
+
+    showMessage(customerMessage, "Edit cancelled", "loading-message");
+}
+
+function resetCustomerForm() {
     editingCustomerId = null;
 
     customerNameInput.value = "";
@@ -88,8 +94,6 @@ function cancelEditCustomer() {
     addCustomerButton.innerHTML = "Add Customer";
 
     cancelEditCustomerButton.style.display = "none";
-
-    showMessage(customerMessage, "Edit cancelled", "loading-message");
 }
 
 function createProductHTML(product) {
@@ -123,6 +127,12 @@ function startEditProduct(id, name, price) {
 }
 
 function cancelEditProduct() {
+    resetProductForm();
+
+    showMessage(productMessage, "Edit cancelled", "loading-message");
+}
+
+function resetProductForm() {
     editingProductId = null;
 
     productNameInput.value = "";
@@ -131,8 +141,6 @@ function cancelEditProduct() {
     addProductButton.innerHTML = "Add Product";
 
     cancelEditProductButton.style.display = "none";
-
-    showMessage(productMessage, "Edit cancelled", "loading-message");
 }
 
 
@@ -384,13 +392,7 @@ addCustomerButton.addEventListener("click", function () {
 
             showMessage(customerMessage, "Customer updated successfully", "success-message");
 
-            customerNameInput.value = "";
-            customerCityInput.value = "";
-
-            editingCustomerId = null;
-
-            addCustomerButton.innerHTML = "Add Customer";
-            cancelEditCustomerButton.style.display = "none";
+            resetCustomerForm();
 
             loadCustomers();
         })
@@ -506,14 +508,8 @@ addProductButton.addEventListener("click", function () {
 
             showMessage(productMessage, "Product updated successfully", "success-message");
 
-            productNameInput.value = "";
-            productPriceInput.value = "";
-
-            editingProductId = null;
-
-            addProductButton.innerHTML = "Add Product";
-            cancelEditProductButton.style.display = "none";
-
+            resetProductForm();
+            
             loadProducts();
         })
         .catch(function (error) {
