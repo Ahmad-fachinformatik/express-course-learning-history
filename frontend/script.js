@@ -19,6 +19,7 @@ const productsResult = document.getElementById("productsResult");
 const productNameInput = document.getElementById("productNameInput");
 const productPriceInput = document.getElementById("productPriceInput");
 const addProductButton = document.getElementById("addProductButton");
+const cancelEditProductButton = document.getElementById("cancelEditProductButton");
 const productMessage = document.getElementById("productMessage");
 
 let editingProductId = null;
@@ -110,9 +111,28 @@ function createProductHTML(product) {
 
 function startEditProduct(id, name, price) {
     editingProductId = id;
-    
+
     productNameInput.value = name;
     productPriceInput.value = price;
+
+    addProductButton.innerHTML = "Update Product";
+
+    cancelEditProductButton.style.display = "inline-block";
+
+    showMessage(productMessage, "Editing product with id: " + id, "loading-message");
+}
+
+function cancelEditProduct() {
+    editingProductId = null;
+
+    productNameInput.value = "";
+    productPriceInput.value = "";
+
+    addProductButton.innerHTML = "Add Product";
+
+    cancelEditProductButton.style.display = "none";
+
+    showMessage(productMessage, "Edit cancelled", "loading-message");
 }
 
 
@@ -491,6 +511,9 @@ addProductButton.addEventListener("click", function () {
 
             editingProductId = null;
 
+            addProductButton.innerHTML = "Add Product";
+            cancelEditProductButton.style.display = "none";
+
             loadProducts();
         })
         .catch(function (error) {
@@ -517,4 +540,8 @@ cancelEditCustomerButton.addEventListener("click", function () {
 
 loadProductsButton.addEventListener("click", function () {
     loadProducts();
+});
+
+cancelEditProductButton.addEventListener("click", function () {
+    cancelEditProduct();
 });
