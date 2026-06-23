@@ -107,10 +107,8 @@ function createProductHTML(product) {
 }
 
 function startEditProduct(id, name, price) {
-    console.log("Editing product:");
-    console.log(id);
-    console.log(name);
-    console.log(price);
+    productNameInput.value = name;
+    productPriceInput.value = price;
 }
 
 
