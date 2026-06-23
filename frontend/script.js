@@ -357,11 +357,13 @@ addCustomerButton.addEventListener("click", function () {
             })
         })
             .then(function (response) {
-                if (!response.ok) {
-                    throw new Error("Could not add customer");
-                }
+                return response.json().then(function (data) {
+                    if (!response.ok) {
+                        throw new Error(data.error || "Could not add customer");
+                    }
 
-                return response.json();
+                    return data;
+                });
             })
             .then(function (newCustomer) {
                 console.log(newCustomer);
@@ -376,7 +378,7 @@ addCustomerButton.addEventListener("click", function () {
             .catch(function (error) {
                 console.log(error.message);
 
-                showMessage(customerMessage, "Could not add customer", "error-message");
+                showMessage(customerMessage, error.message, "error-message");
             })
             .finally(function () {
                 addCustomerButton.disabled = false;
@@ -398,11 +400,13 @@ addCustomerButton.addEventListener("click", function () {
         })
     })
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error("Could not update customer");
-            }
+            return response.json().then(function (data) {
+                if (!response.ok) {
+                    throw new Error(data.error || "Could not update customer");
+                }
 
-            return response.json();
+                return data;
+            });
         })
         .then(function (updatedCustomer) {
             console.log(updatedCustomer);
@@ -417,7 +421,7 @@ addCustomerButton.addEventListener("click", function () {
         .catch(function (error) {
             console.log(error.message);
 
-            showMessage(customerMessage, "Could not update customer", "error-message");
+            showMessage(customerMessage, error.message, "error-message");
         })
         .finally(function () {
             addCustomerButton.disabled = false;
@@ -473,11 +477,13 @@ addProductButton.addEventListener("click", function () {
             })
         })
             .then(function (response) {
-                if (!response.ok) {
-                    throw new Error("Could not add product");
-                }
+                return response.json().then(function (data) {
+                    if (!response.ok) {
+                        throw new Error(data.error || "Could not add product");
+                    }
 
-                return response.json();
+                    return data;
+                });
             })
             .then(function (newProduct) {
                 console.log(newProduct);
@@ -492,7 +498,7 @@ addProductButton.addEventListener("click", function () {
             .catch(function (error) {
                 console.log(error.message);
 
-                showMessage(productMessage, "Could not add product", "error-message");
+                showMessage(productMessage, error.message, "error-message");
             })
             .finally(function () {
                 addProductButton.disabled = false;
@@ -514,11 +520,13 @@ addProductButton.addEventListener("click", function () {
         })
     })
         .then(function (response) {
-            if (!response.ok) {
-                throw new Error("Could not update product");
-            }
+            return response.json().then(function (data) {
+                if (!response.ok) {
+                    throw new Error(data.error || "Could not update product");
+                }
 
-            return response.json();
+                return data;
+            });
         })
         .then(function (updatedProduct) {
             console.log(updatedProduct);
@@ -532,7 +540,7 @@ addProductButton.addEventListener("click", function () {
         .catch(function (error) {
             console.log(error.message);
 
-            showMessage(productMessage, "Could not update product", "error-message");
+            showMessage(productMessage, error.message, "error-message");
         })
         .finally(function () {
             addProductButton.disabled = false;
