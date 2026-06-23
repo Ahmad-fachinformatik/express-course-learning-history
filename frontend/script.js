@@ -47,6 +47,48 @@ function showMessage(element, message, className) {
 }
 
 // =======================
+// Validation Functions
+// =======================
+
+function validateCustomerForm(name, city) {
+    if (name === "") {
+        showMessage(customerMessage, "Customer name is required", "error-message");
+        return false;
+    }
+
+    if (city === "") {
+        showMessage(customerMessage, "Customer city is required", "error-message");
+        return false;
+    }
+
+    return true;
+}
+
+function validateProductForm(name, price) {
+    if (name === "") {
+        showMessage(productMessage, "Product name is required", "error-message");
+        return false;
+    }
+
+    if (productPriceInput.value.trim() === "") {
+        showMessage(productMessage, "Product price is required", "error-message");
+        return false;
+    }
+
+    if (isNaN(price)) {
+        showMessage(productMessage, "Product price must be a number", "error-message");
+        return false;
+    }
+
+    if (price < 0) {
+        showMessage(productMessage, "Product price must be greater than or equal to 0", "error-message");
+        return false;
+    }
+
+    return true;
+}
+
+// =======================
 // Reset Form Functions
 // =======================
 
@@ -331,13 +373,9 @@ addCustomerButton.addEventListener("click", function () {
     const name = customerNameInput.value.trim();
     const city = customerCityInput.value.trim();
 
-    if (name === "") {
-        showMessage(customerMessage, "Customer name is required", "error-message");
-        return;
-    }
+    const isCustomerFormValid = validateCustomerForm(name, city);
 
-    if (city === "") {
-        showMessage(customerMessage, "Customer city is required", "error-message");
+    if (!isCustomerFormValid) {
         return;
     }
 
@@ -441,23 +479,9 @@ addProductButton.addEventListener("click", function () {
     const name = productNameInput.value.trim();
     const price = Number(productPriceInput.value);
 
-    if (name === "") {
-        showMessage(productMessage, "Product name is required", "error-message");
-        return;
-    }
+    const isProductFormValid = validateProductForm(name, price);
 
-    if (productPriceInput.value.trim() === "") {
-        showMessage(productMessage, "Product price is required", "error-message");
-        return;
-    }
-
-    if (isNaN(price)) {
-        showMessage(productMessage, "Product price must be a number", "error-message");
-        return;
-    }
-
-    if (price < 0) {
-        showMessage(productMessage, "Product price must be greater than or equal to 0", "error-message");
+    if (!isProductFormValid) {
         return;
     }
 
